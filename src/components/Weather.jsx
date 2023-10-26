@@ -1,7 +1,10 @@
 const Weather = () => {
   // const url = ``;
   return (
-    <div className="w-screen h-screen bg-gradient-to-r from-violet-500 to-fuchsia-500 flex justify-center items-center font-roboto">
+    <div className="w-screen h-screen bg-gradient-to-r from-violet-500 to-fuchsia-500 flex flex-col justify-center items-center font-roboto">
+      <div className="mb-5 py-3 ">
+        <input type="text" className=" border-2 rounded-xl bg-gray-500 bg-opacity-50 text-white py-2 px-2 hover:border-violet-500 duration-200 md:" placeholder="Search location" />
+      </div>
       <div className="border-1 rounded-md h-[80%] w-[85%] shadow-xl bg-gray-500 bg-opacity-30">
         <div className="">
           <p className="text-white text-2xl py-2 px-2 md:text-5xl">Semarang</p>
