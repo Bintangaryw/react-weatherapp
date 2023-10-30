@@ -1,40 +1,27 @@
-import axios from "axios";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getWeatherData } from "../redux/actions/weatherAction";
 
 const Weather = () => {
-  // const url = ``;
+  const dispatch = useDispatch();
+
+  const { weatherData } = useSelector((state) => state.weather);
+
   const [location, setLocation] = useState("");
-  const [weatherData, setWeatherData] = useState([]);
   const [temperatur, setTemperatur] = useState();
   const [feelsLike, setFeelsLike] = useState();
   const [humidity, setHumidity] = useState();
 
-  const getWeatherData = async (e) => {
+  const handleWeatherData = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}q=${location}&appid=${import.meta.env.VITE_API_KEY}`);
-      const { data } = response;
 
-      const temp = Math.floor(data.main?.temp - 273);
-      setTemperatur(temp);
-      const feels = Math.floor(data.main?.feels_like - 273);
-      setFeelsLike(feels);
-      const humid = Math.floor(data.main?.feels_like - 273);
-      setHumidity(humid);
-
-      setWeatherData(data);
-      console.log(data);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        alert(error);
-      }
-    }
+    dispatch(getWeatherData(location, setTemperatur, setFeelsLike, setHumidity));
   };
 
   return (
     <div className="w-screen h-screen bg-gradient-to-r from-violet-500 to-fuchsia-500 flex flex-col justify-center items-center font-roboto">
       <div className="mb-5 py-3 ">
-        <form onSubmit={getWeatherData}>
+        <form onSubmit={handleWeatherData}>
           <input
             type="text"
             className=" border-[1px] rounded-xl bg-gray-500 bg-opacity-50 text-white py-2 px-2 hover:border-violet-500 duration-200 md:"
@@ -47,7 +34,7 @@ const Weather = () => {
       <div className="border-1 rounded-md h-[80%] w-[85%] shadow-xl bg-gray-500 bg-opacity-30">
         <div className="">
           <p className="text-white text-2xl py-2 px-2 md:text-5xl">
-            {weatherData.name}, {weatherData.sys?.country}
+            {weatherData.name}, {weatherData?.sys?.country}
           </p>
           <div className="grid grid-cols-2">
             <p className="text-white text-6xl py-2 px-2 font-bold md:text-[120px]">{temperatur}°C</p>
